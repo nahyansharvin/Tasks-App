@@ -51,7 +51,7 @@ function query(sql, values = []) {
 // get all tasks
 app.get('/tasks', async (req, res) => {
   try {
-    const results = await query('SELECT * FROM tasks');
+    const results = await query('SELECT * FROM tasks ORDER BY created_at ASC');
     res.json(results);
   } catch (error) {
     console.error('Error fetching tasks:', error);
