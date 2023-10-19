@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import {AddTask, Home} from './pages';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path='/add' element={<AddTask />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </div>
   )

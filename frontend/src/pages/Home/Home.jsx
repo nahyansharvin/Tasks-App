@@ -5,8 +5,10 @@ import ContentWrapper from '../../components/common/Wrapper/ContentWrapper';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { tasks } = useHome();
   
   return (
@@ -14,7 +16,7 @@ const Home = () => {
       <h1 className='text-3xl text-indigo-950 font-bold'>Tasks to be accomplished</h1>
       <div className='flex justify-between items-center my-4'>
         <p>Sort by</p>
-        <Button variant="contained" endIcon={<AddIcon />}>
+        <Button variant="contained" endIcon={<AddIcon />} onClick={() => navigate("/add")}>
           Add Task
         </Button>
       </div>
