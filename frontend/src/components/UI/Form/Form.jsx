@@ -36,10 +36,10 @@ const Form = ({ task, handleSubmit, edit = false }) => {
         image: Yup.mixed().required('Image is required'),
     });
 
-    const onSubmit = (values) => {
+    const onSubmit = async (values) => {
         setLoading(true);
         values.image = image;
-        handleSubmit(values);
+        await handleSubmit(values);
         formik.resetForm();
     };
 
@@ -132,6 +132,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
                 </Grid>
                 <div className='flex justify-end mt-4'>
                     <LoadingButton
+                        type="submit"
                         loading={loading}
                         variant="contained"
                     >

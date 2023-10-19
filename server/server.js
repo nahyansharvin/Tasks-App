@@ -15,7 +15,7 @@ app.use(express.json({ limit: '50mb'}));
 // get all tasks
 app.get('/tasks', async (req, res) => {
   try {
-    const results = await query('SELECT * FROM tasks ORDER BY created_at ASC');
+    const results = await query('SELECT * FROM tasks ORDER BY created_at DESC');
     res.json(results);
   } catch (error) {
     console.error('Error fetching tasks:', error);
