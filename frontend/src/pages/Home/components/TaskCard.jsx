@@ -32,7 +32,7 @@ const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
 
 
     return (
-        <div className="max-w-sm w-full lg:max-w-full lg:flex mb-3 shadow-md transition duration-150 hover:shadow-2xl hover:scale-[1.005] cursor-pointer" onClick={handleCardClick}>
+        <div className="max-w-sm w-full lg:max-h-48 lg:max-w-full lg:rounded-lg overflow-hidden lg:flex mb-3 shadow-md transition duration-150 hover:shadow-2xl hover:scale-[1.005] cursor-pointer" onClick={handleCardClick}>
             {/* Image */}
             <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover bg-slate-700 rounded-t lg:rounded-r-none lg:rounded-lg text-center overflow-hidden">
                 <img src={image} alt={title} className='object-cover h-full w-full' />
@@ -62,7 +62,7 @@ const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
                     <div className="text-gray-900 font-bold text-xl mb-1">
                         {title}
                     </div>
-                    <p className="text-gray-700 text-base line-clamp-2">{body}</p>
+                    <p className="text-gray-700 text-base line-clamp-3">{body}</p>
                 </div>
             </div>
         </div>

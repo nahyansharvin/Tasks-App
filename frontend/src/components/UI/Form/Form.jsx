@@ -52,8 +52,8 @@ const Form = ({ task, handleSubmit, edit = false }) => {
     const handleImageChange = async (event) => {
         const selectedFile = event.target.files[0];
 
-        if (selectedFile.size > 100000) {
-            formik.setFieldError('image', 'Image file size must be less than 100KB');
+        if ((selectedFile.size/1024/1024) > 5) {
+            formik.setFieldError('image', 'Image file size must be less than 5 MB');
         } else {
             formik.setFieldValue('image', selectedFile);
             await fileToBase(selectedFile);
