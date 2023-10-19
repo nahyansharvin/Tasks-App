@@ -23,7 +23,7 @@ const TaskCard = ({id, title, body, priority, time, image}) => {
                 <div className="mb-1">
                     <div className='flex justify-between'>
                         <div className='flex items-center'>
-                            <Label priority='high'/>
+                            <Label priority={priority}/>
                             <p className='text-sm text-gray-600 flex items-center ml-2'>
                                 <AccessTimeRoundedIcon className='mr-1' fontSize='12px' />
                                 {formatTimestamp(time)}
