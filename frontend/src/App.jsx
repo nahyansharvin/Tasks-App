@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import {AddTask, Home} from './pages';
 
 function App() {
   return (
@@ -7,6 +7,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path='/add' element={<AddTask />} />
         </Routes>
       </BrowserRouter>
     </div>
