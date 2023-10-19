@@ -15,16 +15,20 @@ const useHome = () => {
     }
 
     async function handleDelete(id) {
-        await DeleteTask(id);
-        Success('Task deleted successfully');
-        fetchTasks();
+        try {
+            await DeleteTask(id);
+            Success('Task deleted successfully');
+            fetchTasks();
+        } catch (err) {
+            handleApiError(err);
+        }
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         fetchTasks();
     }, []);
 
-    return { tasks,  handleDelete }
+    return { tasks, handleDelete }
 }
 
 export default useHome

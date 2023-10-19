@@ -13,7 +13,7 @@ const Home = () => {
   
   return (
     <ContentWrapper>
-      <h1 className='text-3xl text-indigo-950 font-bold'>Tasks to be accomplished</h1>
+      <h1 className='text-3xl text-primary font-bold'>Tasks to be accomplished</h1>
       <div className='flex justify-between items-center my-4'>
         <p>Sort by</p>
         <Button variant="contained" endIcon={<AddIcon />} onClick={() => navigate("/add")}>
@@ -22,7 +22,8 @@ const Home = () => {
       </div>
 
       <div className=''>
-        {tasks?.map((task, index) => <TaskCard
+        {tasks?.map((task) => <TaskCard
+          key={task.id}
           id={task.id}
           title={task.title}
           body={task.description}

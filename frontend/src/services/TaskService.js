@@ -5,6 +5,10 @@ export const getTasks = async () => {
     return BackendService.get(getBackendPath('/tasks'));
 }
 
+export const getTaskById = async (id) => {
+    return BackendService.get(getBackendPath(`/tasks/${id}`));
+}
+
 export const AddTask = async (data) => {
     return BackendService.post(getBackendPath('/tasks'), data);
 }

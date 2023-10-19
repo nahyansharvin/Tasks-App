@@ -7,6 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: '#0c0c0d',
+
+        bgPrimary: '#effaf6',
+
         prioHigh: '#b52016',
         prioMedium: '#998718',
         prioLow: '#348c3f',
