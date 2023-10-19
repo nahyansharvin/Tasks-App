@@ -1,5 +1,7 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
+dotenv.config({ path: "./.env" });
 
 const { query } = require('./database/database');
 const { uploadImage, deleteImage } = require('./utils/imageUpload');

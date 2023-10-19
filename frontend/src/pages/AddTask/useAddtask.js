@@ -9,7 +9,6 @@ export const useAddtask = () => {
 
     async function handleAddTask(values) {
         try {
-            console.log(values);
             await AddTask(values);
             Success('Task Added Successfully');
             navigate('/');

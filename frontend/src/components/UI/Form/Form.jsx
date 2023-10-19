@@ -11,9 +11,11 @@ import {
     MenuItem,
     InputLabel,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const Form = ({ task, handleSubmit, edit = false }) => {
     const [image, setImage] = useState();
+    const [loading, setLoading] = useState(false);
 
     const initialValues = {
         title: '',
@@ -25,7 +27,6 @@ const Form = ({ task, handleSubmit, edit = false }) => {
         initialValues.title = task.title;
         initialValues.description = task.description;
         initialValues.priority = task.priority;
-        // initialValues.image = task.image;
     }
 
     const validationSchema = Yup.object({
@@ -36,6 +37,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
     });
 
     const onSubmit = (values) => {
+        setLoading(true);
         values.image = image;
         handleSubmit(values);
         formik.resetForm();
@@ -52,7 +54,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
     const handleImageChange = async (event) => {
         const selectedFile = event.target.files[0];
 
-        if ((selectedFile.size/1024/1024) > 5) {
+        if ((selectedFile.size / 1024 / 1024) > 5) {
             formik.setFieldError('image', 'Image file size must be less than 5 MB');
         } else {
             formik.setFieldValue('image', selectedFile);
@@ -129,9 +131,12 @@ const Form = ({ task, handleSubmit, edit = false }) => {
                     </Grid>
                 </Grid>
                 <div className='flex justify-end mt-4'>
-                    <Button type="submit" variant="contained" color="primary">
+                    <LoadingButton
+                        loading={loading}
+                        variant="contained"
+                    >
                         {edit ? 'Update' : 'Add'}
-                    </Button>
+                    </LoadingButton>
                 </div>
             </form>
         </Container>
