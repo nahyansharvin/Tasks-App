@@ -15,7 +15,7 @@ import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 
 const Viewtask = () => {
     const navigate = useNavigate();
-    const { task, handleDelete } = useViewTask();
+    const { task, handleEditButton, handleDeleteButton } = useViewTask();
     if (!task) return null;
 
     return (
@@ -28,12 +28,12 @@ const Viewtask = () => {
                             <ArrowBackIcon />
                         </IconButton>
                         <div className=''>
-                            <Button variant="outlined" size='small' startIcon={<EditIcon />}>
+                            <Button variant="outlined" size='small' startIcon={<EditIcon />} onClick={handleEditButton}>
                                 Edit
                             </Button>
-                            {/* <IconButton aria-label="delete" color='error' onClick={handleDelete}>
+                            <IconButton aria-label="delete" color='error' onClick={handleDeleteButton}>
                                 <DeleteIcon />
-                            </IconButton> */}
+                            </IconButton>
                         </div>
                     </div>
 

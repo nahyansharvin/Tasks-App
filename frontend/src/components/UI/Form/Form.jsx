@@ -6,18 +6,13 @@ import {
     Button,
     Container,
     Grid,
-    Typography,
     FormControl,
     Select,
     MenuItem,
     InputLabel,
 } from '@mui/material';
-import { AddTask } from '../../../services/TaskService';
-import { Success } from '../../common/Toast';
-import { useNavigate } from 'react-router';
 
-const Form = () => {
-    const navigate = useNavigate();
+const Form = ({task, handleSubmit, edit=false}) => {
 
     const initialValues = {
         title: '',
@@ -25,6 +20,12 @@ const Form = () => {
         priority: '',
         image: "image",
     };
+    if(task && edit){
+        initialValues.title = task.title;
+        initialValues.description = task.description;
+        initialValues.priority = task.priority;
+        initialValues.image = task.image;
+    }
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
@@ -33,15 +34,14 @@ const Form = () => {
         image: Yup.mixed().required('Image is required'),
     });
 
-    const onSubmit = async (values) => {
-        await AddTask(values);
-        Success('Task Added Successfully');
+    const onSubmit = (values) => {
+        handleSubmit(values);
         formik.resetForm();
-        navigate('/');
     };
 
     const formik = useFormik({
         initialValues,
+        enableReinitialize: true,
         validationSchema,
         onSubmit,
     });
@@ -109,7 +109,7 @@ const Form = () => {
                 </Grid>
                 <div className='flex justify-end mt-4'>
                     <Button type="submit" variant="contained" color="primary">
-                        Add Task
+                        {edit ? 'Update' : 'Add'}
                     </Button>
                 </div>
             </form>

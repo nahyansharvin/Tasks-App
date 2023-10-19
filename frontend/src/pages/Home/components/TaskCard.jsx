@@ -21,7 +21,7 @@ const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
     }
 
     const handleEdit = (e) => {
-        // navigate(`/edit/${id}`)
+        navigate(`/edit/${id}`)
         e.stopPropagation();
     }
 

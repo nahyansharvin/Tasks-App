@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { DeleteTask, getTaskById } from '../../services/TaskService';
+import { useEffect, useState } from 'react'
+import { UpdateTask, getTaskById } from '../../services/TaskService';
 import handleApiError from '../../utils/handleApiError';
 import { useNavigate, useParams } from 'react-router';
 import { Success } from '../../components/common/Toast';
 
-const useViewTask = () => {
+
+const useUpdatetask = () => {
     const navigate = useNavigate();
     const [task, setTask] = useState();
     const { id } = useParams();
@@ -22,21 +23,17 @@ const useViewTask = () => {
         }
     }
 
-    const handleDeleteButton = async () => {
+    async function handleUpdateTask(values) {
         try {
-            await DeleteTask(id);
-            Success('Task deleted successfully');
+            await UpdateTask(id, values);
+            Success('Task Updated Successfully');
             navigate('/');
         } catch (err) {
             handleApiError(err);
         }
     }
 
-    const handleEditButton = () => {
-        navigate(`/edit/${id}`);
-    }
-
-  return {task, handleDeleteButton, handleEditButton}
+    return {task, handleUpdateTask}
 }
 
-export default useViewTask
+export default useUpdatetask

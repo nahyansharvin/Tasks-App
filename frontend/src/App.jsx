@@ -9,7 +9,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path='/add' element={<AddTask />} />
-          <Route path='/update' element={<UpdateTask />} />
+          <Route path='/edit/:id' element={<UpdateTask />} />
           <Route path='/view/:id' element={<ViewTask />} />
         </Routes>
         <Toaster />

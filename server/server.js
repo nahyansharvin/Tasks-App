@@ -104,7 +104,7 @@ app.delete('/tasks/:id', async (req, res) => {
 //update task
 app.put('/tasks/:id', async (req, res) => {
   id = req.params.id;
-  const sql = 'UPDATE tasks SET title = ?, description = ?, image = ?, priority = ? WHERE id = ?';
+  const sql = 'UPDATE tasks SET `title` = ?, `description` = ?, `image` = ?, `priority` = ? WHERE id = ?';
   const values = [
     req.body.title,
     req.body.description,
