@@ -30,8 +30,8 @@ const Form = ({ task, handleSubmit, edit = false }) => {
     }
 
     const validationSchema = Yup.object({
-        title: Yup.string().required('Title is required'),
-        description: Yup.string().required('Description is required'),
+        title: Yup.string().required('Title is required').max(250, 'Title must be less than 250 characters'),
+        description: Yup.string().required('Description is required').max(500, 'Description must be less than 500 characters'),
         priority: Yup.string().required('Priority is required'),
         image: Yup.mixed().required('Image is required'),
     });
