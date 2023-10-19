@@ -35,6 +35,7 @@ const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
         <div className="max-w-sm w-full lg:max-w-full lg:flex mb-3 shadow-md transition duration-150 hover:shadow-2xl hover:scale-[1.005] cursor-pointer" onClick={handleCardClick}>
             {/* Image */}
             <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover bg-slate-700 rounded-t lg:rounded-r-none lg:rounded-lg text-center overflow-hidden">
+                <img src={image} alt={title} className='object-cover h-full w-full' />
             </div>
             {/* Content */}
             <div className="w-full border-r border-b border-l border-gray-200 lg:border-l-0 lg:border-t lg:border-gray-200 bg-white rounded-b lg:rounded-b-none lg:rounded-r-lg p-4 lg:p-5 flex flex-col justify-between leading-normal">

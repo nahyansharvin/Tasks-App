@@ -28,7 +28,7 @@ const Viewtask = () => {
                             <ArrowBackIcon />
                         </IconButton>
                         <div className=''>
-                            <Button variant="outlined" size='small' startIcon={<EditIcon />} onClick={handleEditButton}>
+                            <Button variant="contained" size='small' startIcon={<EditIcon />} onClick={handleEditButton}>
                                 Edit
                             </Button>
                             <IconButton aria-label="delete" color='error' onClick={handleDeleteButton}>
@@ -36,7 +36,7 @@ const Viewtask = () => {
                             </IconButton>
                         </div>
                     </div>
-
+                    <img src={task?.image} alt={task?.title} className='object-cover h-full w-full' />
                 </div>
                 {/* Content */}
                 <div className='p-10'>

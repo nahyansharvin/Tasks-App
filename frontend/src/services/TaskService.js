@@ -10,7 +10,7 @@ export const getTaskById = async (id) => {
 }
 
 export const AddTask = async (data) => {
-    return BackendService.post(getBackendPath('/tasks'), data);
+    return BackendService.post(getBackendPath('/tasks'), data, { "Content-Type": "application/json" });
 }
 
 export const UpdateTask = async (id, data) => {

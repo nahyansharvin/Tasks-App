@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AddTask } from '../../services/TaskService';
 import { Success } from '../../components/common/Toast';
 import { useNavigate } from 'react-router';
@@ -9,6 +9,7 @@ export const useAddtask = () => {
 
     async function handleAddTask(values) {
         try {
+            console.log(values);
             await AddTask(values);
             Success('Task Added Successfully');
             navigate('/');
@@ -17,6 +18,6 @@ export const useAddtask = () => {
         }
     }
 
-    
-  return {handleAddTask}
+
+    return { handleAddTask }
 }

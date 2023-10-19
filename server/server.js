@@ -1,51 +1,13 @@
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
+
+const { query } = require('./database/database');
+const { uploadImage, deleteImage } = require('./utils/imageUpload');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'task_app'
-});
-
-db.connect((err) => {
-  if (err) throw new Error(err);
-  console.log("Connected to database");
-  createTable();
-});
-
-function createTable() {
-  db.query(`CREATE TABLE IF NOT EXISTS tasks (
-      id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      description TEXT,
-      image VARCHAR(255),
-      priority ENUM('low', 'medium', 'high') DEFAULT 'low',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )`, (err) => {
-    if (err) throw new Error(err);
-    console.log("Table created/exists");
-  }
-  );
-}
-
-function query(sql, values = []) {
-  return new Promise((resolve, reject) => {
-    db.query(sql, values, (error, results) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      resolve(results);
-    });
-  });
-}
 
 // APIS
 // get all tasks
@@ -73,14 +35,16 @@ app.get('/tasks/:id', async (req, res) => {
 
 // create task
 app.post('/tasks', async (req, res) => {
-  const sql = 'INSERT INTO tasks (title, description, image, priority) VALUES (?, ?, ?, ?)';
-  const values = [
-    req.body.title,
-    req.body.description,
-    req.body.image,
-    req.body.priority
-  ];
+  const sql = 'INSERT INTO tasks (title, description, image, image_public_id, priority) VALUES (?, ?, ?, ?, ?)';
   try {
+    const { imageUrl, public_id } = await uploadImage(req.body.image);
+    const values = [
+      req.body.title,
+      req.body.description,
+      imageUrl,
+      public_id,
+      req.body.priority
+    ];
     await query(sql, values);
     res.json("Task added succesfully!");
   } catch (error) {
@@ -93,6 +57,8 @@ app.post('/tasks', async (req, res) => {
 app.delete('/tasks/:id', async (req, res) => {
   const id = req.params.id;
   try {
+    const image_id = await query('SELECT image_public_id FROM tasks WHERE id = ?', [id])
+    await deleteImage(image_id[0].image_public_id);
     await query('DELETE FROM tasks WHERE id = ?', [id]);
     res.json("Task deleted succesfully!");
   } catch (error) {
@@ -104,16 +70,21 @@ app.delete('/tasks/:id', async (req, res) => {
 //update task
 app.put('/tasks/:id', async (req, res) => {
   id = req.params.id;
-  const sql = 'UPDATE tasks SET `title` = ?, `description` = ?, `image` = ?, `priority` = ? WHERE id = ?';
-  const values = [
-    req.body.title,
-    req.body.description,
-    req.body.image,
-    req.body.priority,
-    id
-  ];
+  const sql = 'UPDATE tasks SET `title` = ?, `description` = ?, `image` = ?, `image_public_id` = ?, `priority` = ? WHERE id = ?';
+  
   try {
+    const image_id = await query('SELECT image_public_id FROM tasks WHERE id = ?', [id])
+    const { imageUrl, public_id } = await uploadImage(req.body.image);
+    const values = [
+      req.body.title,
+      req.body.description,
+      imageUrl,
+      public_id,
+      req.body.priority,
+      id
+    ];
     await query(sql, values);
+    await deleteImage(image_id[0].image_public_id);
     res.json("Task updated succesfully!");
   } catch (error) {
     console.error('Error updating task:', error);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -12,19 +12,20 @@ import {
     InputLabel,
 } from '@mui/material';
 
-const Form = ({task, handleSubmit, edit=false}) => {
+const Form = ({ task, handleSubmit, edit = false }) => {
+    const [image, setImage] = useState();
 
     const initialValues = {
         title: '',
         description: '',
         priority: '',
-        image: "image",
+        image: null,
     };
-    if(task && edit){
+    if (task && edit) {
         initialValues.title = task.title;
         initialValues.description = task.description;
         initialValues.priority = task.priority;
-        initialValues.image = task.image;
+        // initialValues.image = task.image;
     }
 
     const validationSchema = Yup.object({
@@ -35,8 +36,28 @@ const Form = ({task, handleSubmit, edit=false}) => {
     });
 
     const onSubmit = (values) => {
+        values.image = image;
         handleSubmit(values);
         formik.resetForm();
+    };
+
+    const fileToBase = async (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImage(reader.result);
+        };
+    }
+
+    const handleImageChange = async (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile.size > 100000) {
+            formik.setFieldError('image', 'Image file size must be less than 100KB');
+        } else {
+            formik.setFieldValue('image', selectedFile);
+            await fileToBase(selectedFile);
+        }
     };
 
     const formik = useFormik({
@@ -48,7 +69,7 @@ const Form = ({task, handleSubmit, edit=false}) => {
 
     return (
         <Container maxWidth="sm">
-            <form onSubmit={formik.handleSubmit} className='bg-white p-8 rounded-md'>
+            <form onSubmit={formik.handleSubmit} className='bg-white p-8 rounded-md' encType='multipart/form-data'>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
@@ -95,17 +116,17 @@ const Form = ({task, handleSubmit, edit=false}) => {
                             helperText={formik.touched.description && formik.errors.description}
                         />
                     </Grid>
-                    {/* <Grid item xs={12}>
+                    <Grid item xs={12}>
                         <input
                             type="file"
                             name="image"
-                            onChange={(event) => formik.setFieldValue('image', event.target.files[0])}
+                            onChange={handleImageChange}
                             onBlur={formik.handleBlur}
                         />
                         {formik.touched.image && formik.errors.image && (
                             <div style={{ color: 'red' }}>{formik.errors.image}</div>
                         )}
-                    </Grid> */}
+                    </Grid>
                 </Grid>
                 <div className='flex justify-end mt-4'>
                     <Button type="submit" variant="contained" color="primary">
