@@ -12,7 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 
-const TaskCard = ({id, title, body, priority, time, image}) => {
+const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
+   
+
     return (
         <div class="max-w-sm w-full lg:max-w-full lg:flex mb-3">
             {/* Image */}
@@ -33,7 +35,7 @@ const TaskCard = ({id, title, body, priority, time, image}) => {
                             <Button variant="outlined" size='small' startIcon={<EditIcon />}>
                                 Edit
                             </Button>
-                            <IconButton aria-label="delete" color='error'>
+                            <IconButton aria-label="delete" color='error' onClick={() => handleDelete(id)}>
                                 <DeleteIcon />
                             </IconButton>
                         </div>

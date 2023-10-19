@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { tasks } = useHome();
+  const { tasks, handleDelete } = useHome();
   
   return (
     <ContentWrapper>
@@ -29,6 +29,7 @@ const Home = () => {
           priority={task.priority}
           time={task.created_at}
           image={task.image}
+          handleDelete={handleDelete}
         />)}
       </div>
     </ContentWrapper>

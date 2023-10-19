@@ -1,23 +1,30 @@
 import { useEffect, useState } from 'react'
-import { getTasks } from '../../services/TaskService'
+import { DeleteTask, getTasks } from '../../services/TaskService'
 import handleApiError from '../../utils/handleApiError'
+import { Success } from '../../components/common/Toast';
 
 const useHome = () => {
     const [tasks, setTasks] = useState();
-
-    useEffect(() => {
-        async function fetchTasks() {
-            try {
-                const tasks = await getTasks();
-                setTasks(tasks);
-            } catch (err) {
-                handleApiError(err);
-            }
+    async function fetchTasks() {
+        try {
+            const tasks = await getTasks();
+            setTasks(tasks);
+        } catch (err) {
+            handleApiError(err);
         }
+    }
+
+    async function handleDelete(id) {
+        await DeleteTask(id);
+        Success('Task deleted successfully');
+        fetchTasks();
+    }
+
+    useEffect(() => {   
         fetchTasks();
     }, []);
 
-    return { tasks }
+    return { tasks,  handleDelete }
 }
 
 export default useHome
