@@ -59,7 +59,7 @@ const TaskCard = ({id, title, body, priority, time, image, handleDelete}) => {
 
                     </div>
 
-                    <div className="text-gray-900 font-bold text-xl mb-1">
+                    <div className="text-gray-900 font-bold text-xl mb-1 line-clamp-1">
                         {title}
                     </div>
                     <p className="text-gray-700 text-base line-clamp-3">{body}</p>

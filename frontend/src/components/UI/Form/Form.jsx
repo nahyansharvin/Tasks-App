@@ -30,7 +30,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required').max(250, 'Title must be less than 250 characters'),
-        description: Yup.string().required('Description is required').max(500, 'Description must be less than 500 characters'),
+        description: Yup.string().required('Description is required').max(2000, 'Description must be less than 2000 characters'),
         priority: Yup.string().required('Priority is required'),
         image: Yup.mixed().required('Image is required'),
     });
@@ -53,11 +53,16 @@ const Form = ({ task, handleSubmit, edit = false }) => {
     const handleImageChange = async (event) => {
         const selectedFile = event.target.files[0];
 
-        if ((selectedFile.size / 1024 / 1024) > 5) {
-            formik.setFieldError('image', 'Image file size must be less than 5 MB');
-        } else {
-            formik.setFieldValue('image', selectedFile);
-            await fileToBase(selectedFile);
+        if (selectedFile) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!allowedTypes.includes(selectedFile.type)) {
+                formik.setFieldError('image', 'Only JPG, JPEG, and PNG files are allowed');
+            } else if ((selectedFile.size / 1024 / 1024) > 5) {
+                formik.setFieldError('image', 'Image file size must be less than 5 MB');
+            } else {
+                formik.setFieldValue('image', selectedFile);
+                await fileToBase(selectedFile);
+            }
         }
     };
 
@@ -70,7 +75,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
 
     return (
         <Container maxWidth="sm">
-            <form onSubmit={formik.handleSubmit} className='bg-white p-8 rounded-md' encType='multipart/form-data'>
+            <form onSubmit={formik.handleSubmit} className='bg-white p-8 rounded-md shadow-lg' encType='multipart/form-data'>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
@@ -127,6 +132,7 @@ const Form = ({ task, handleSubmit, edit = false }) => {
                         {formik.touched.image && formik.errors.image && (
                             <div style={{ color: 'red' }}>{formik.errors.image}</div>
                         )}
+                        <p className='text-xs mt-1 text-gray-500'>Upload jpg, jpeg or png file less than 3mb.</p>
                     </Grid>
                 </Grid>
                 <div className='flex justify-end mt-4'>
