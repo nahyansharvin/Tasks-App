@@ -33,7 +33,7 @@ const useUpdatetask = () => {
         }
     }
 
-    return {task, handleUpdateTask}
+    return {task, handleUpdateTask, navigate}
 }
 
 export default useUpdatetask

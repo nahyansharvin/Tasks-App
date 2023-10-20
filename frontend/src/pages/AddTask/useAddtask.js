@@ -18,5 +18,5 @@ export const useAddtask = () => {
     }
 
 
-    return { handleAddTask }
+    return { handleAddTask, navigate }
 }
